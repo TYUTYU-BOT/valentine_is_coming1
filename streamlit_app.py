@@ -3,11 +3,10 @@ from datetime import datetime
 
 st.set_page_config(page_title="Be My Valentine", page_icon="💗", layout="centered")
 
-# Wrap everything in a centered container
+# Center everything
 st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
 
 # ================== THEME, HEART, ANIMATION ==================
-# NOTE: We keep this as ONE triple-quoted string to avoid unterminated-string errors.
 html = """
 <style>
 :root{
@@ -110,7 +109,7 @@ html = """
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200px;
+  width: 210px;
   transform: translate(-50%, -50%) rotate(45deg);
   color: #fff;
   text-align: center;
@@ -119,8 +118,34 @@ html = """
   text-shadow: 0 2px 6px rgba(0,0,0,.18);
 }
 .heart-text .line1 { font-size: 18px; letter-spacing: .3px; opacity: .95; }
-.heart-text .line2 { font-size: 24px; margin-top: 4px; }
-.heart-text .line3 { font-size: 14px; margin-top: 10px; opacity: .95; }
+/* ⬇️ Your requested sizes */
+.heart-text .line2 { font-size: 26px; }
+.heart-text .line3 { font-size: 15px; }
+
+/* Buttons */
+.actions {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px;
+}
+.stButton>button {
+  padding: .70rem 1.15rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+.stButton>button.yes {
+  background: linear-gradient(90deg, #ff5aa5, #ff8fbf);
+  color: #fff; border: none;
+  box-shadow: 0 6px 18px rgba(255,90,165,.35);
+}
+.stButton>button.yes:hover {
+  filter: brightness(1.07); transform: translateY(-1px); transition: .15s;
+}
+.stButton>button.no {
+  background: #fff; color: #ff2e92; border: 2px solid #ff2e92;
+}
+.stButton>button.no:hover {
+  background: rgba(255,46,146,.08);
+}
 
 /* Footer */
 .footer { color:#6b7280; font-size:.92rem; margin-top: 6px; }
@@ -147,9 +172,11 @@ html = """
   <!-- Main glowing heart -->
   <div class="heart-stage">
     <div class="heart"></div>
+
+    <!-- ✅ UPDATED TEXT INSIDE THE HEART -->
     <div class="heart-text">
-      <div class="line1">Can you be my</div>
-      <div class="line2">Valentine?</div>
+      <div class="line1">I’ve been thinking of you…</div>
+      <div class="line2">Would you be my Valentine, please?</div>
       <div class="line3">Love, Asekhona</div>
     </div>
   </div>
