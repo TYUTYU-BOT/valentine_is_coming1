@@ -6,7 +6,8 @@ st.set_page_config(page_title="Be My Valentine", page_icon="💗", layout="cente
 # Wrap everything in a centered container
 st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
 
-# ================== THEME & HEART ==================
+# ================== THEME, HEART, ANIMATION ==================
+# NOTE: We keep this as ONE triple-quoted string to avoid unterminated-string errors.
 html = """
 <style>
 :root{
@@ -63,7 +64,7 @@ html = """
   z-index: 1;
 }
 
-/* CSS-drawn heart (red/pink) with glow */
+/* CSS-drawn glowing heart */
 .heart {
   width: 280px;
   height: 280px;
@@ -71,7 +72,7 @@ html = """
   transform: rotate(-45deg);
   margin: 20px auto 4px;
   background: radial-gradient(circle at 30% 30%, #ff6aa9 0%, #ff2e92 70%, #d91d79 100%);
-  border-radius: 8px; /* subtle smoothing; corners are hidden by circles */
+  border-radius: 8px;
   box-shadow:
      0 0 24px rgba(255, 90, 165, .45),
      0 0 48px rgba(255, 46, 146, .28);
@@ -121,15 +122,63 @@ html = """
 .heart-text .line2 { font-size: 24px; margin-top: 4px; }
 .heart-text .line3 { font-size: 14px; margin-top: 10px; opacity: .95; }
 
-/* Buttons */
-.actions {
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px;
-}
-.stButton>button {
-  padding: .70rem 1.15rem;
-  border-radius: 999px;
-  font-weight: 700;
-  letter-spacing: .2px;
-}
-.stButton>button.yes {
+/* Footer */
+.footer { color:#6b7280; font-size:.92rem; margin-top: 6px; }
+</style>
 
+<div class="wrapper">
+
+  <!-- Falling hearts (12 spans) -->
+  <div class="fall">
+    <span style="left:5%;  animation-duration:6.0s; animation-delay:0.2s;">💗</span>
+    <span style="left:12%; animation-duration:7.5s; animation-delay:1.0s;">💗</span>
+    <span style="left:20%; animation-duration:8.2s; animation-delay:0.6s;">💗</span>
+    <span style="left:28%; animation-duration:6.8s; animation-delay:1.4s;">💗</span>
+    <span style="left:36%; animation-duration:7.0s; animation-delay:0.1s;">💗</span>
+    <span style="left:44%; animation-duration:6.2s; animation-delay:0.9s;">💗</span>
+    <span style="left:52%; animation-duration:7.8s; animation-delay:0.5s;">💗</span>
+    <span style="left:60%; animation-duration:6.6s; animation-delay:1.3s;">💗</span>
+    <span style="left:68%; animation-duration:8.0s; animation-delay:0.3s;">💗</span>
+    <span style="left:76%; animation-duration:7.2s; animation-delay:1.1s;">💗</span>
+    <span style="left:84%; animation-duration:6.4s; animation-delay:0.7s;">💗</span>
+    <span style="left:92%; animation-duration:7.6s; animation-delay:0.4s;">💗</span>
+  </div>
+
+  <!-- Main glowing heart -->
+  <div class="heart-stage">
+    <div class="heart"></div>
+    <div class="heart-text">
+      <div class="line1">Can you be my</div>
+      <div class="line2">Valentine?</div>
+      <div class="line3">Love, Asekhona</div>
+    </div>
+  </div>
+
+</div>
+"""
+
+# Inject HTML/CSS
+st.markdown(html, unsafe_allow_html=True)
+
+# ================== BUTTONS (YES / MAYBE) ==================
+c1, c2 = st.columns([1, 1])
+with c1:
+    yes_clicked = st.button("Yes 💖", use_container_width=True)
+with c2:
+    no_clicked = st.button("Maybe later 💭", use_container_width=True)
+
+# Responses
+if yes_clicked:
+    st.success("Yay! See you on the 14th 🎉")
+    st.balloons()
+    st.toast("Date locked in! 💗", icon="🎯")
+elif no_clicked:
+    st.info("All good — coffee first? ☕️🙂")
+    st.toast("No rush. I’ll ask again, but cuter. ✨", icon="⏳")
+
+# Footer
+st.markdown(
+    f"<div class='footer'>Built with 💗 by Asekhona • {datetime.now().strftime('%d %b %Y')}</div>",
+    unsafe_allow_html=True
+)
+st.markdown("</div>", unsafe_allow_html=True)
