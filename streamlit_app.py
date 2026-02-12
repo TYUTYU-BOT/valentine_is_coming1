@@ -1,121 +1,220 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from datetime import datetime
 
 st.set_page_config(page_title="Be My Valentine", page_icon="💗", layout="centered")
 
-# Optional: center the Streamlit container content
-st.markdown("<div style='text-align:center;'></div>", unsafe_allow_html=True)
+# Wrap everything in a centered container
+st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
 
-today = datetime.now().strftime("%B %d, %Y")
+# ================== THEME & HEART ==================
+html = """
+<style>
+:root{
+  --pink-bg: #ffe4ef;
+  --pink-1: #ffc1da;
+  --pink-2: #ff8fbf;
+  --pink-3: #ff5aa5;
+  --pink-4: #ff2e92;
+  --ink: #2b2b2b;
+}
 
-html = (
-    "<style>"
-    ":root{"
-    "  --pink-bg: #ffe4ef;"
-    "  --pink-1: #ffc1da;"
-    "  --pink-2: #ff8fbf;"
-    "  --pink-3: #ff5aa5;"
-    "  --pink-4: #ff2e92;"
-    "  --ink: #2b2b2b;"
-    "}"
-    "body{margin:0;}"
-    ".stApp{"
-    "  background: radial-gradient(1200px 600px at 50% -10%, var(--pink-1), var(--pink-bg));"
-    "  color: var(--ink);"
-    "  font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;"
-    "}"
-    ".wrapper{"
-    "  margin:6vh auto 4vh;"
-    "  display:flex;"
-    "  flex-direction:column;"
-    "  align-items:center;"
-    "  gap:18px;"
-    "  position:relative;"
-    "}"
-    ".fall{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}"
-    ".fall span{"
-    "  position:absolute;top:-10vh;color:#ff5aa5;font-size:16px;opacity:.85;"
-    "  animation-name:fall;animation-timing-function:linear;animation-iteration-count:infinite;"
-    "  filter:drop-shadow(0 2px 2px rgba(255,46,146,.35));"
-    "}"
-    "@keyframes fall{"
-    "  0%{transform:translateY(-10vh) rotate(0deg);opacity:.95;}"
-    "  100%{transform:translateY(110vh) rotate(360deg);opacity:.95;}"
-    "}"
-    ".heart-stage{position:relative;z-index:1;display:grid;place-items:center;}"
-    ".heart{"
-    "  width:280px;height:280px;position:relative;transform:rotate(-45deg);"
-    "  margin:20px auto 4px;"
-    "  background: radial-gradient(circle at 30% 30%, #ff6aa9 0%, #ff2e92 70%, #d91d79 100%);"
-    "  border-radius:8px;"
-    "  box-shadow:0 0 24px rgba(255,90,165,.45),0 0 48px rgba(255,46,146,.28),inset 0 -10px 40px rgba(0,0,0,.12);"
-    "  animation:glow 2.2s ease-in-out infinite;"
-    "}"
-    ".heart:before,.heart:after{"
-    "  content:'';position:absolute;width:280px;height:280px;background:inherit;border-radius:50%;"
-    "  box-shadow:0 0 24px rgba(255,90,165,.35),0 0 48px rgba(255,46,146,.22);"
-    "}"
-    ".heart:before{top:-50%;left:0;}"
-    ".heart:after{left:50%;top:0;}"
-    "@keyframes glow{"
-    "  0%,100%{box-shadow:0 0 24px rgba(255,90,165,.40),0 0 48px rgba(255,46,146,.25),inset 0 -10px 40px rgba(0,0,0,.10);}"
-    "  50%{box-shadow:0 0 32px rgba(255,90,165,.55),0 0 64px rgba(255,46,146,.35),inset 0 -12px 48px rgba(0,0,0,.14);}"
-    "}"
-    ".heart-text{position:absolute;inset:0;display:grid;place-items:center;padding:22px;transform:rotate(45deg);}"
-    ".heart-text .text-box{"
-    "  text-align:center;color:#fff8fb;text-shadow:0 1px 2px rgba(0,0,0,.20),0 0 10px rgba(255,46,146,.35);"
-    "  line-height:1.35;max-width:70%;margin-top:-6px;"
-    "}"
-    ".line1{font-weight:500;font-size:1.0rem;opacity:.95;}"
-    ".line2{margin-top:6px;font-weight:700;font-size:1.15rem;}"
-    ".line3{margin-top:10px;font-weight:600;font-size:.95rem;opacity:.95;}"
-    "h1.title{margin:0;font-size:clamp(26px,3.2vw,40px);color:#ad0e6b;text-shadow:0 1px 0 #fff,0 2px 12px rgba(255,46,146,.25);}"
-    ".smallnote{margin-top:12px;color:#8a3a62;font-size:0.9rem;}"
-    "</style>"
+/* Page background - soft pink gradient */
+.stApp {
+  background: radial-gradient(1200px 600px at 50% -10%, var(--pink-1), var(--pink-bg));
+  color: var(--ink);
+  font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 
-    "<div class='fall' id='fall-layer' aria-hidden='true'></div>"
-    "<div class='wrapper'>"
-    "  <h1 class='title'>Be My Valentine 💗</h1>"
-    "  <div class='heart-stage'>"
-    "    <div class='heart'>"
-    "      <div class='heart-text'>"
-    "        <div class='text-box'>"
-    "          <div class='line1'>I’ve been thinking of you…</div>"
-    "          <div class='line2'>Would you be my Valentine, please?</div>"
-    "          <div class='line3'>Love, Asekhona</div>"
-    "        </div>"
-    "      </div>"
-    "    </div>"
-    "  </div>"
-    f"  <div class='smallnote'>Made with a lot of 💕 on {today}</div>"
-    "</div>"
+/* Container */
+.wrapper {
+  margin: 6vh auto 2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
 
-    "<script>(function(){"
-    "  const container=document.getElementById('fall-layer');"
-    "  if(!container)return;"
-    "  const HEARTS=40;"
-    "  const symbols=['❤','💗','💖','💘','💝','💞','💓'];"
-    "  function makeHeart(){"
-    "    const span=document.createElement('span');"
-    "    span.textContent=symbols[Math.floor(Math.random()*symbols.length)];"
-    "    const left=Math.random()*100;"
-    "    const duration=6+Math.random()*8;"
-    "    const delay=Math.random()*6;"
-    "    const size=14+Math.random()*18;"
-    "    const hue=330+Math.floor(Math.random()*20);"
-    "    span.style.left=left+'vw';"
-    "    span.style.fontSize=size+'px';"
-    "    span.style.color=`hsl(${hue} 100% 65%)`;"
-    "    span.style.animationDuration=duration+'s';"
-    "    span.style.animationDelay=delay+'s';"
-    "    span.style.opacity=0.85;"
-    "    container.appendChild(span);"
-    "    const total=(duration+delay)*1000;"
-    "    setTimeout(()=>{span.remove();makeHeart();},total);"
-    "  }"
-    "  for(let i=0;i<HEARTS;i++){setTimeout(makeHeart,Math.random()*2000);}"
-    "})();</script>"
+/* Falling hearts layer (behind the main heart) */
+.fall {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.fall span {
+  position: absolute;
+  top: -10vh;
+  color: #ff5aa5;
+  font-size: 16px;
+  opacity: .8;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes fall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: .9; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+}
+
+/* Main heart container (above falling hearts) */
+.heart-stage {
+  position: relative;
+  z-index: 1;
+}
+
+/* CSS-drawn heart (red/pink) with glow */
+.heart {
+  width: 280px;
+  height: 280px;
+  position: relative;
+  transform: rotate(-45deg);
+  margin: 20px auto 4px;
+  background: radial-gradient(circle at 30% 30%, #ff6aa9 0%, #ff2e92 70%, #d91d79 100%);
+  border-radius: 8px; /* subtle smoothing; corners are hidden by circles */
+  box-shadow:
+     0 0 24px rgba(255, 90, 165, .45),
+     0 0 48px rgba(255, 46, 146, .28);
+  animation: glow 2.2s ease-in-out infinite;
+}
+.heart:before,
+.heart:after {
+  content: "";
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle at 30% 30%, #ff6aa9 0%, #ff2e92 70%, #d91d79 100%);
+  border-radius: 50%;
+  position: absolute;
+}
+.heart:before { top: -140px; left: 0; }
+.heart:after  { left: 140px; top: 0; }
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(255, 90, 165, .38),
+      0 0 36px rgba(255, 46, 146, .20);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 26px rgba(255, 90, 165, .55),
+      0 0 60px rgba(255, 46, 146, .35);
+    filter: brightness(1.06);
+  }
+}
+
+/* White text inside the tilted heart */
+.heart-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  color: #fff;
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow: 0 2px 6px rgba(0,0,0,.18);
+}
+.heart-text .line1 { font-size: 18px; letter-spacing: .3px; opacity: .95; }
+.heart-text .line2 { font-size: 26px; }
+.heart-text .line3 { font-size: 15px; }
+
+
+/* Buttons */
+.actions {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px;
+}
+.stButton>button {
+  padding: .70rem 1.15rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+.stButton>button.yes {
+  background: linear-gradient(90deg, #ff5aa5, #ff8fbf);
+  color: #fff; border: none;
+  box-shadow: 0 6px 18px rgba(255,90,165,.35);
+}
+.stButton>button.yes:hover {
+  filter: brightness(1.07); transform: translateY(-1px); transition: .15s;
+}
+.stButton>button.no {
+  background: #fff; color: #ff2e92; border: 2px solid #ff2e92;
+}
+.stButton>button.no:hover {
+  background: rgba(255,46,146,.08);
+}
+
+/* Footer */
+.footer { color:#6b7280; font-size:.92rem; margin-top: 6px; }
+</style>
+
+<div class="wrapper">
+
+  <!-- Falling hearts (12 spans with randomized horizontal position via inline style) -->
+  <div class="fall">
+    <span style="left:5%;  animation-duration:6.0s; animation-delay:0.2s;">💗</span>
+    <span style="left:12%; animation-duration:7.5s; animation-delay:1.0s;">💗</span>
+    <span style="left:20%; animation-duration:8.2s; animation-delay:0.6s;">💗</span>
+    <span style="left:28%; animation-duration:6.8s; animation-delay:1.4s;">💗</span>
+    <span style="left:36%; animation-duration:7.0s; animation-delay:0.1s;">💗</span>
+    <span style="left:44%; animation-duration:6.2s; animation-delay:0.9s;">💗</span>
+    <span style="left:52%; animation-duration:7.8s; animation-delay:0.5s;">💗</span>
+    <span style="left:60%; animation-duration:6.6s; animation-delay:1.3s;">💗</span>
+    <span style="left:68%; animation-duration:8.0s; animation-delay:0.3s;">💗</span>
+    <span style="left:76%; animation-duration:7.2s; animation-delay:1.1s;">💗</span>
+    <span style="left:84%; animation-duration:6.4s; animation-delay:0.7s;">💗</span>
+    <span style="left:92%; animation-duration:7.6s; animation-delay:0.4s;">💗</span>
+  </div>
+
+  <!-- Main glowing heart -->
+  <div class="heart-stage">
+    <div class="heart"></div>
+    <div class="heart-text">
+    <div class="line1">I’ve been thinking of you…</div>
+    <div class="line2">Would you be my Valentine, please?</div>
+    <div class="line3">Love, Asekhona</div>
+  </div>
+  </div>
+
+</div>
+"""
+
+st.markdown(html, unsafe_allow_html=True)
+
+# ================== BUTTONS (YES / NO) ==================
+# Place Streamlit buttons (we'll restyle them with CSS classes via a tiny script)
+c1, c2 = st.columns([1, 1])
+with c1:
+    yes_clicked = st.button("Yes 💖", key="yes_btn", use_container_width=True)
+with c2:
+    no_clicked = st.button("Maybe later 💭", key="no_btn", use_container_width=True)
+
+# Attach CSS classes to the real Streamlit buttons (after render)
+st.markdown("""
+<script>
+const btns = window.parent.document.querySelectorAll('button');
+if (btns && btns.length >= 2) {
+  btns[0].classList.add('yes');
+  btns[1].classList.add('no');
+}
+</script>
+""", unsafe_allow_html=True)
+
+# ================== RESPONSES ==================
+if yes_clicked:
+    st.success("Yay! See you on the 14th 🎉")
+    st.balloons()
+    st.toast("Date locked in! 💗", icon="🎯")
+elif no_clicked:
+    st.info("All good — coffee first? ☕️🙂")
+    st.toast("No rush. I’ll ask again, but cuter. ✨", icon="⏳")
+
+# Footer
+st.markdown(
+    f"<div class='footer'>Built with 💗 by Asekhona • {datetime.now().strftime('%d %b %Y')}</div>",
+    unsafe_allow_html=True
 )
-
-components.html(html, height=800, scrolling=False)
+st.markdown("</div>", unsafe_allow_html=True)
